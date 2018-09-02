@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
  *
  * It have the following methods:
  *
+ * T is Author
  * S extends Author
  * ID extends Long
  *

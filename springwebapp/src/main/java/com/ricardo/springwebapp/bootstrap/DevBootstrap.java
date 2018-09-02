@@ -2,8 +2,10 @@ package com.ricardo.springwebapp.bootstrap;
 
 import com.ricardo.springwebapp.model.Author;
 import com.ricardo.springwebapp.model.Book;
+import com.ricardo.springwebapp.model.Publisher;
 import com.ricardo.springwebapp.repositories.AuthorRepository;
 import com.ricardo.springwebapp.repositories.BookRepository;
+import com.ricardo.springwebapp.repositories.PublisherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,6 +21,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
     private AuthorRepository authorRepository; // Going to be auto wired
     private BookRepository bookRepository;
+    private PublisherRepository publisherRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -26,9 +29,14 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     }
 
     private void initData() {
+        Publisher publisher = new Publisher();
+        publisher.setName("Leya");
+
+        publisherRepository.save(publisher);
+
         // The legend
         Author tolkien = new Author("John", "Ronald Reuel Tolkien");
-        Book bookOne = new Book("The Fellowship of the Ring ", "1234", "J. R. R. Tolkien");
+        Book bookOne = new Book("The Fellowship of the Ring ", "1234", publisher);
         tolkien.getBooks().add(bookOne);
         bookOne.getAuthors().add(tolkien);
 
@@ -38,7 +46,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
         // The second legend
         Author martin = new Author("George", "Raymond Richard Martin");
-        Book bookTwo = new Book("A Game of Thrones", "4321", "George R. R. Martin");
+        Book bookTwo = new Book("A Game of Thrones", "4321", publisher);
         martin.getBooks().add(bookTwo);
 
         // Saving martin and the second book in the database
